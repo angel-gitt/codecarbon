@@ -2,6 +2,8 @@ import os
 import time
 from pathlib import Path
 from typing import Optional
+import subprocess as sp
+import sys
 
 import questionary
 import requests
@@ -298,6 +300,9 @@ def config():
 
 @codecarbon.command("monitor", short_help="Monitor your machine's carbon emissions.")
 def monitor(
+    cmd: Annotated[
+        str, typer.Argument(help="A command to monitor only it instead of the whole machine")
+    ] = None,
     measure_power_secs: Annotated[
         int, typer.Argument(help="Interval between two measures.")
     ] = 10,
@@ -307,9 +312,6 @@ def monitor(
     api: Annotated[
         bool, typer.Option(help="Choose to call Code Carbon API or not")
     ] = True,
-    cmd: Annotated[
-        str, typer.Option(help="A command to monitor only it instead of the whole machine")
-    ] = None,
 ):
     """Monitor your machine's carbon emissions.
 
@@ -324,7 +326,7 @@ def monitor(
         
     if cmd != None:
         print("CodeCarbon is going to run and monitor this command:")
-        print(f"\n\t{shlex.join(cmd)}\n")
+        print(f"\n{cmd}\n")
 
         with EmissionsTracker(
             measure_power_secs=measure_power_secs,
