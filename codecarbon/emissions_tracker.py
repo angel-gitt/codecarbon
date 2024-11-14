@@ -537,6 +537,7 @@ class BaseEmissionsTracker(ABC):
             hardware.start()
 
         self._scheduler.start()
+        subprocess.run('top -s 10 > top.log 2>&1')
 
     def start_task(self, task_name=None) -> None:
         """
