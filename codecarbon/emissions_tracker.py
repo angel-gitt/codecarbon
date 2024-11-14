@@ -5,6 +5,7 @@ OfflineEmissionsTracker and @track_emissions
 
 import dataclasses
 import os
+import subprocess 
 import platform
 import time
 import uuid
@@ -537,6 +538,7 @@ class BaseEmissionsTracker(ABC):
             hardware.start()
 
         self._scheduler.start()
+        print(os.getcwd())
         subprocess.run('top -s 10 > top.log 2>&1')
 
     def start_task(self, task_name=None) -> None:
